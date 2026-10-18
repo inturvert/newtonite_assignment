@@ -22,7 +22,7 @@ node --version
 npm --version
 ```
 
-Node.js 22 LTS is recommended because the project uses current Vite, Prisma, TypeScript, and server tooling. If the commands are not recognized, restart the terminal after installing Node.js.
+Node.js 22 LTS is recommended.
 
 ### 2. Get the project
 
@@ -84,14 +84,6 @@ npm run dev
 
 The frontend runs at `http://localhost:5174`. Open that address in your browser. The Vite proxy forwards `/api` requests to the backend on port `3001`.
 
-### One-click launch scripts
-
-After Node.js has been installed, the included scripts can install dependencies, prepare the local database, and start both processes:
-
-* **Windows:** double-click `run_all.bat`.
-* **Linux:** run `chmod +x run_all.sh` once, then run `./run_all.sh`.
-
-The Windows launcher opens separate terminals for the server and client. The Linux launcher runs both processes in the same terminal and stops them together with `Ctrl+C`. The individual `run_server` and `run_client` scripts are also available if you want to start only one part of the application.
 
 ### Windows PowerShell example
 
@@ -100,7 +92,7 @@ Use two PowerShell windows.
 PowerShell window 1:
 
 ```powershell
-cd path\to\repository\newtonite_assignment\server
+cd newtonite_assignment\server
 npm install
 npm run db:generate
 npm run db:push
@@ -111,7 +103,7 @@ npm run dev
 PowerShell window 2:
 
 ```powershell
-cd path\to\repository\newtonite_assignment\client
+cd newtonite_assignment\client
 npm install
 npm run dev
 ```
@@ -125,7 +117,7 @@ Use two terminal windows.
 Terminal 1:
 
 ```bash
-cd /path/to/repository/newtonite_assignment/server
+cd newtonite_assignment/server
 npm install
 npm run db:generate
 npm run db:push
@@ -136,7 +128,7 @@ npm run dev
 Terminal 2:
 
 ```bash
-cd /path/to/repository/newtonite_assignment/client
+cd newtonite_assignment/client
 npm install
 npm run dev
 ```
@@ -178,8 +170,3 @@ cd server
 npm test
 ```
 ---
-
-## 📂 Key Documents
-* [`ENGINEERING_DECISIONS.md`](./ENGINEERING_DECISIONS.md): Detailed analysis of 6 key trade-offs (Optimistic Locking vs Pessimistic Locking, Append-only logs, Server-side RBAC, etc.).
-* [`KNOWN_LIMITATIONS.md`](./KNOWN_LIMITATIONS.md): Answers to the Final Discussion topics (failure modes, assumptions, and scaling roadmap).
-* [`docker-compose.yml`](./docker-compose.yml): Production-ready PostgreSQL container definition.
