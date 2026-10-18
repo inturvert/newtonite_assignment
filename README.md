@@ -5,39 +5,169 @@
 
 ---
 
-## 🚀 Quick Start (Zero-Friction Local Run)
+## 🚀 Running the Application Locally
 
-### Prerequisites
-* **Node.js** v18+ & **npm**
+Newtonite is a full-stack application with a React frontend, an Express API, and a local SQLite database. The normal setup does not require Docker or PostgreSQL. Docker is optional and is included for future database deployment reference.
 
-### 1. Install & Seed
+### 1. Install the required software
+
+Install the following before starting:
+
+* **Node.js 22 LTS** from [nodejs.org](https://nodejs.org/). npm is included with Node.js.
+* A modern browser such as Chrome, Edge, Firefox, or Safari.
+* Git is optional if the project was downloaded as a ZIP file.
+
+After installing Node.js, open a new terminal and confirm it is available:
+
+```text
+node --version
+npm --version
+```
+
+Node.js 22 LTS is recommended because the project uses current Vite, Prisma, TypeScript, and server tooling. If the commands are not recognized, restart the terminal after installing Node.js.
+
+### 2. Get the project
+
+If using Git:
+
 ```bash
-# Clone and enter directory
-cd newtonite
+git clone <your-repository-url>
+cd <repository-folder>/newtonite
+```
 
-# Install server dependencies & seed demo database
+If using a ZIP download, extract the repository, open a terminal in the repository folder, and enter the `newtonite` directory:
+
+```bash
+cd newtonite
+```
+
+### 3. Install backend dependencies and prepare the database
+
+Run these commands from the `newtonite` directory:
+
+```bash
 cd server
 npm install
+npm run db:generate
 npm run db:push
 npm run db:seed
 ```
 
-### 2. Run Backend & Frontend
-In one terminal:
+These commands install the API dependencies, generate the Prisma client, create the local SQLite schema, and insert the demo users, teams, work items, and activity history.
+
+The server reads configuration from `server/.env`. If that file is not included in your copy of the repository, create it with this content:
+
+```env
+DATABASE_URL="file:./dev.db"
+JWT_SECRET="newtonite-dev-secret-change-in-production-abc123xyz"
+PORT=3001
+NODE_ENV=development
+```
+
+The included values are for local development only. Use a new secret for a real deployment and never commit private production secrets.
+
+### 4. Install frontend dependencies
+
+Open a second terminal. From the `newtonite` directory, run:
+
 ```bash
-# Start backend API (runs on http://localhost:3001)
+cd client
+npm install
+```
+
+### 5. Start the backend and frontend
+
+Keep two terminals open.
+
+In the first terminal, from `newtonite/server`:
+
+```bash
 npm run dev
 ```
 
-In a second terminal:
+The backend runs at `http://localhost:3001`.
+
+In the second terminal, from `newtonite/client`:
+
 ```bash
-# Start frontend client (runs on http://localhost:5174)
-cd ../client
+npm run dev
+```
+
+The frontend runs at `http://localhost:5174`. Open that address in your browser. The Vite proxy forwards `/api` requests to the backend on port `3001`.
+
+### Windows PowerShell example
+
+Use two PowerShell windows.
+
+PowerShell window 1:
+
+```powershell
+cd path\to\repository\newtonite\server
+npm install
+npm run db:generate
+npm run db:push
+npm run db:seed
+npm run dev
+```
+
+PowerShell window 2:
+
+```powershell
+cd path\to\repository\newtonite\client
 npm install
 npm run dev
 ```
 
-Open **`http://localhost:5174`** in your browser!
+Open `http://localhost:5174`.
+
+### Linux terminal example
+
+Use two terminal windows.
+
+Terminal 1:
+
+```bash
+cd /path/to/repository/newtonite/server
+npm install
+npm run db:generate
+npm run db:push
+npm run db:seed
+npm run dev
+```
+
+Terminal 2:
+
+```bash
+cd /path/to/repository/newtonite/client
+npm install
+npm run dev
+```
+
+Open `http://localhost:5174`.
+
+### Root shortcut commands
+
+After installing dependencies in both `server` and `client`, these commands can also be run from the `newtonite` directory:
+
+```bash
+npm run server   # Start the backend
+npm run client   # Start the frontend
+npm run seed     # Seed the local database
+npm run build    # Build both backend and frontend
+npm test         # Run backend tests
+```
+
+### Reset the local database
+
+To delete the local SQLite data and recreate the seeded database:
+
+```bash
+cd server
+npm run db:reset
+npm run db:seed
+```
+
+This removes local development data. Do not run it against a production database.
 
 ---
 
