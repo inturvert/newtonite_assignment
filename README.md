@@ -1,13 +1,11 @@
 # Newtonite — Operational Coordination Engine
 
 > **A high-concurrency internal work coordination platform built to replace fragmented chat, spreadsheet, and email workflows.**  
-> Candidate submission for the **Newtonite Software Engineering Challenge** (`Newtonite_Software_Engineering_Challenge.pdf`).
+
 
 ---
 
 ## 🚀 Running the Application Locally
-
-Newtonite is a full-stack application with a React frontend, an Express API, and a local SQLite database. The normal setup does not require Docker or PostgreSQL. Docker is optional and is included for future database deployment reference.
 
 ### 1. Install the required software
 
@@ -31,14 +29,14 @@ Node.js 22 LTS is recommended because the project uses current Vite, Prisma, Typ
 If using Git:
 
 ```bash
-git clone <your-repository-url>
-cd <repository-folder>/newtonite
+git clone https://github.com/inturvert/newtonite_assignment.git
+cd newtonite_assignment
 ```
 
-If using a ZIP download, extract the repository, open a terminal in the repository folder, and enter the `newtonite` directory:
+If using a ZIP download, extract the repository, open a terminal in the repository folder ie in `newtonite_assignment` directory
 
 ```bash
-cd newtonite
+cd newtonite_assignment
 ```
 
 ### 3. Install backend dependencies and prepare the database
@@ -55,20 +53,11 @@ npm run db:seed
 
 These commands install the API dependencies, generate the Prisma client, create the local SQLite schema, and insert the demo users, teams, work items, and activity history.
 
-The server reads configuration from `server/.env`. If that file is not included in your copy of the repository, create it with this content:
-
-```env
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="newtonite-dev-secret-change-in-production-abc123xyz"
-PORT=3001
-NODE_ENV=development
-```
-
-The included values are for local development only. Use a new secret for a real deployment and never commit private production secrets.
+The server reads configuration from `server/.env`.
 
 ### 4. Install frontend dependencies
 
-Open a second terminal. From the `newtonite` directory, run:
+Open a second terminal. From the `newtonite_assignment` directory, run:
 
 ```bash
 cd client
@@ -79,7 +68,7 @@ npm install
 
 Keep two terminals open.
 
-In the first terminal, from `newtonite/server`:
+In the first terminal, from `newtonite_assignment/server`:
 
 ```bash
 npm run dev
@@ -87,7 +76,7 @@ npm run dev
 
 The backend runs at `http://localhost:3001`.
 
-In the second terminal, from `newtonite/client`:
+In the second terminal, from `newtonite_assignment/client`:
 
 ```bash
 npm run dev
@@ -102,7 +91,7 @@ Use two PowerShell windows.
 PowerShell window 1:
 
 ```powershell
-cd path\to\repository\newtonite\server
+cd path\to\repository\newtonite_assignment\server
 npm install
 npm run db:generate
 npm run db:push
@@ -113,7 +102,7 @@ npm run dev
 PowerShell window 2:
 
 ```powershell
-cd path\to\repository\newtonite\client
+cd path\to\repository\newtonite_assignment\client
 npm install
 npm run dev
 ```
@@ -127,7 +116,7 @@ Use two terminal windows.
 Terminal 1:
 
 ```bash
-cd /path/to/repository/newtonite/server
+cd /path/to/repository/newtonite_assignment/server
 npm install
 npm run db:generate
 npm run db:push
@@ -138,7 +127,7 @@ npm run dev
 Terminal 2:
 
 ```bash
-cd /path/to/repository/newtonite/client
+cd /path/to/repository/newtonite_assignment/client
 npm install
 npm run dev
 ```
@@ -179,62 +168,6 @@ To run the automated test suite verifying the 5 critical concurrency behaviors:
 cd server
 npm test
 ```
-
-### Verified Behaviors:
-* ✅ **Optimistic Locking:** Rejects stale edits with `409 Conflict` when version numbers mismatch.
-* ✅ **Atomic Claiming:** Prevents race conditions when two users attempt to claim an unassigned work item simultaneously.
-* ✅ **Idempotency Keys:** Prevents duplicate operations across rapid clicks or network retries via `X-Idempotency-Key`.
-* ✅ **State Machine Rules:** Validates that status transitions strictly obey legitimate workflow paths.
-* ✅ **Server-Enforced RBAC:** Independently rejects privilege escalation (e.g. member attempting to mark critical priority).
-* ✅ **Immutable Audit Trail:** Ensures every mutation logs an unalterable history event.
-
----
-
-## 👥 Demo Personas for Quick Role Evaluation
-
-The top navigation bar contains a **1-click Persona Switcher** allowing you to instantly switch between users to test role-based permissions:
-
-| Persona | Email | Password | Role | Team |
-|---|---|---|---|---|
-| **Alice Chen** | `alice@newtonite.corp` | `password123` | **Lead / Admin** | Platform Engineering |
-| **Bob Sharma** | `bob@newtonite.corp` | `password123` | **Member / Dev** | Platform Engineering |
-| **Carol Taylor** | `carol@newtonite.corp` | `password123` | **Manager** | Payments & Settlement |
-| **David Patel** | `david@newtonite.corp` | `password123` | **Member / Ops** | Payments & Settlement |
-| **Eva Rodriguez** | `eva@newtonite.corp` | `password123` | **Lead / Admin** | Compliance & Legal |
-
----
-
-## 🏛️ System Architecture
-
-```
-┌────────────────────────────────────────────────────────┐
-│               Frontend (React 19 + Vite)               │
-│  - Optimistic Concurrency Visualizer                   │
-│  - Conflict Resolution Banner (409 Handler)            │
-│  - Immediate Attention Triage Queue                    │
-│  - 1-Click Role Switcher                               │
-└───────────────────────────┬────────────────────────────┘
-                            │ HTTP (with X-Idempotency-Key)
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│            Backend API (Node.js + Express)             │
-│  - Idempotency Interceptor Middleware                  │
-│  - JWT Authentication Middleware                       │
-│  - Resource-Level RBAC Middleware                      │
-│  - State Machine Workflow Engine                       │
-│  - Optimistic Locking Service                          │
-└───────────────────────────┬────────────────────────────┘
-                            │ ACID Transactions
-                            ▼
-┌────────────────────────────────────────────────────────┐
-│           Relational Database (Prisma ORM)             │
-│  - `work_items` (with atomic `version` column)         │
-│  - `activity_log` (append-only immutable audit trail)  │
-│  - `idempotency_keys` (24h cache)                      │
-│  - `teams` & `team_members` (multi-tenancy isolation) │
-└────────────────────────────────────────────────────────┘
-```
-
 ---
 
 ## 📂 Key Documents
