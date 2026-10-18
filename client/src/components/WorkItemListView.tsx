@@ -45,7 +45,7 @@ export const WorkItemListView: React.FC<WorkItemListViewProps> = ({
   onResetFilters,
 }) => {
   return (
-    <div className="space-y-6 animate-fadeIn">
+    <div className="nt-work-list space-y-6 animate-fadeIn">
       {/* Search & Filter Toolbar */}
       <div className="rounded-3xl bg-slate-900 border border-slate-800 p-5 shadow-xl space-y-4">
         <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">

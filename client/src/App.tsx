@@ -145,6 +145,29 @@ function MainApp() {
     setPagination((prev) => ({ ...prev, page: 1 }));
   };
 
+  const pageCopy: Record<ActiveTab, { eyebrow: string; title: string; description: string }> = {
+    dashboard: {
+      eyebrow: 'Operations workspace',
+      title: 'Greetings, lets keep work moving :)',
+      description: 'Review priority work, ownership, and items that need a decision.',
+    },
+    all: {
+      eyebrow: 'Work items',
+      title: 'Find and manage operational work.',
+      description: 'Search across the teams you belong to and open any item for its full history.',
+    },
+    attention: {
+      eyebrow: 'Priority queue',
+      title: 'Items that need attention.',
+      description: 'Critical, overdue, and unassigned work is collected here for quick triage.',
+    },
+    'my-work': {
+      eyebrow: 'Personal queue',
+      title: 'Your active work.',
+      description: 'Track the requests and incidents currently assigned to you.',
+    },
+  };
+
   if (loading) {
     return (
       <div className="flex h-screen items-center justify-center bg-slate-950 text-slate-400">
@@ -154,7 +177,7 @@ function MainApp() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="nt-app min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
       {/* Navigation */}
       <Navbar
         activeTab={activeTab}
@@ -166,6 +189,20 @@ function MainApp() {
 
       {/* Main Content Area */}
       <main className="flex-1 mx-auto max-w-7xl w-full px-4 py-8 sm:px-6">
+        <section className="nt-page-heading mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="nt-overline">{pageCopy[activeTab].eyebrow}</p>
+            <h1>{pageCopy[activeTab].title}</h1>
+            <p className="nt-page-description">{pageCopy[activeTab].description}</p>
+          </div>
+          <div className="nt-user-summary">
+            <span className="nt-avatar">{user?.name?.slice(0, 1) || 'U'}</span>
+            <span>
+              <strong>{user?.name || 'Workspace member'}</strong>
+              <small>{user?.teams?.length || 0} teams available</small>
+            </span>
+          </div>
+        </section>
         {activeTab === 'dashboard' && (
           <DashboardView
             stats={stats}
