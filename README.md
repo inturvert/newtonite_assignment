@@ -84,6 +84,15 @@ npm run dev
 
 The frontend runs at `http://localhost:5174`. Open that address in your browser. The Vite proxy forwards `/api` requests to the backend on port `3001`.
 
+### One-click launch scripts
+
+After Node.js has been installed, the included scripts can install dependencies, prepare the local database, and start both processes:
+
+* **Windows:** double-click `run_all.bat`.
+* **Linux:** run `chmod +x run_all.sh` once, then run `./run_all.sh`.
+
+The Windows launcher opens separate terminals for the server and client. The Linux launcher runs both processes in the same terminal and stops them together with `Ctrl+C`. The individual `run_server` and `run_client` scripts are also available if you want to start only one part of the application.
+
 ### Windows PowerShell example
 
 Use two PowerShell windows.
