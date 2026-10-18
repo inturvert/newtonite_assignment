@@ -41,7 +41,7 @@ cd newtonite_assignment
 
 ### 3. Install backend dependencies and prepare the database
 
-Run these commands from the `newtonite` directory:
+Run these commands from the `newtonite_assignment` directory:
 
 ```bash
 cd server
